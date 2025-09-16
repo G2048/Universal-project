@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from starlette.middleware.cors import CORSMiddleware
 
+from app.api.v1 import routers as routers_v1
 from app.configs import LogConfig, get_appsettings, get_logger
 
 logger = get_logger()
@@ -24,6 +25,8 @@ app = FastAPI(
     version=settings.appversion,
     swagger_ui_parameters={"syntaxHighlight": {"theme": "obsidian"}},
 )
+
+app.include_router(routers_v1.users, prefix="/api/v1")
 
 
 @app.get("/health", tags=["health check"])
