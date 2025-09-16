@@ -6,7 +6,6 @@ from .log_settings import set_appname, set_appversion, set_debug_level
 from .pyproject import ParserPyproject
 
 load_dotenv()
-pyproject_parser = ParserPyproject()
 
 
 class AppSettings(BaseSettings):
