@@ -4,6 +4,8 @@ DATABASE="universal"
 echo "Create user $USER with password $PASSWORD" | tee .create_user.log
 sudo -u postgres psql -c "CREATE ROLE $USER WITH LOGIN PASSWORD '$PASSWORD' CREATEDB CREATEROLE;"
 sudo -u postgres psql -c "CREATE DATABASE $DATABASE OWNER $USER;"
+sudo -u postgres psql -c "CREATE SEQUENCE IF NOT EXISTS user_roles_id_seq OWNED BY user_roles.id;"
+sudo -u postgres psql -c "ALTER TABLE user_roles ALTER COLUMN id SET DEFAULT nextval('user_roles_id_seq');"
 
 cat app/core/database/schema.sql | sudo psql -U $USER
 echo
