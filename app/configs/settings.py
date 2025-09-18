@@ -45,5 +45,8 @@ def get_appsettings():
     return _app_settings
 
 
-def get_database_settings():
-    return DataBaseSettings()
+_database_settings = DataBaseSettings()
+
+
+def get_database_settings() -> DataBaseSettings:
+    return _database_settings
