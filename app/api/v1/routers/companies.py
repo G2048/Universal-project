@@ -12,7 +12,9 @@ logger = logging.getLogger("app.api.v1.routers.companies")
 
 
 @router.post("/")
-def create_company(company: Companies, session: Session = Depends(get_db_connection)):
+def create_company(
+    company: Companies, session: Session = Depends(get_db_connection)
+) -> Companies:
     try:
         session.add(company)
         session.commit()
@@ -25,7 +27,9 @@ def create_company(company: Companies, session: Session = Depends(get_db_connect
 
 
 @router.get("/{company_id}")
-def get_company(company_id: int, session: Session = Depends(get_db_connection)):
+def get_company(
+    company_id: int, session: Session = Depends(get_db_connection)
+) -> Companies:
     logger.info(f"Getting company with id: {company_id}")
     statement = select(Companies).where(Companies.id == company_id)
     company = session.exec(statement).first()
@@ -33,10 +37,10 @@ def get_company(company_id: int, session: Session = Depends(get_db_connection)):
 
 
 @router.get("/")
-def list_companies(session: Session = Depends(get_db_connection)):
+def list_companies(session: Session = Depends(get_db_connection)) -> list[Companies]:
     statement = select(Companies)
-    company = session.exec(statement).fetchall()
-    return company
+    companies = session.exec(statement).fetchall()
+    return companies
 
 
 # @router.put("/{company_id}")
