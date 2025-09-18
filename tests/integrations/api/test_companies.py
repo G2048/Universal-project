@@ -19,7 +19,10 @@ def test_list_company():
         response = client.get(ENDPOINT)
     assert response.status_code == 200
     assert response.json() != []
-    print(f"response.json(): {response.json()}")
+    response_json = response.json()
+    assert isinstance(response_json, list)
+    assert isinstance(response_json[0], dict)
+    print(f"{response_json=}")
 
 
 def test_create_delete_company():
