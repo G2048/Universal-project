@@ -590,7 +590,9 @@ class UserRoles(SQLModel, table=True):
     id: int = Field(sa_column=Column("id", Integer, primary_key=True))
     user_id: int = Field(sa_column=Column("user_id", BigInteger))
     role_id: int = Field(sa_column=Column("role_id", SmallInteger))
-    active_from: date = Field(sa_column=Column("active_from", Date))
+    active_from: date = Field(
+        sa_column=Column("active_from", Date), default_factory=date.today
+    )
     active_to: date | None = Field(default=None, sa_column=Column("active_to", Date))
 
     role: Optional["RolesDict"] = Relationship(back_populates="user_roles")
