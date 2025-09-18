@@ -18,6 +18,7 @@ class JwtPayload(BaseModel):
     sub: str
     ttl: int = 900 * 60 * 24 * 30  # 30 days
     jti: str = Field(default_factory=uuid_str_factory)
+    user_id: int
 
     @computed_field(return_type=int)
     def exp(self):

@@ -56,7 +56,7 @@ def get_token(
             status_code=HTTPStatus.UNAUTHORIZED,
             detail="Incorrect username or password",
         )
-    token = JWT.generate_token(JwtPayload(sub=username))
+    token = JWT.generate_token(JwtPayload(sub=username, user_id=user_exist.id))
     return ResponseToken(access_token=token, token_type="bearer")
 
 
