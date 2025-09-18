@@ -1,6 +1,6 @@
 ## Инициализация базы данных
 ```bash
-bash create_database_psql.sh
+bash build/create_database_psql.sh
 ```
 > Создает базу данных по умолчанию и заполняет ее данными из файла app/core/database/schema.sql
 > Указывает пароль для базы данных в файле .create_user.log
