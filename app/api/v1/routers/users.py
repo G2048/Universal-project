@@ -25,7 +25,10 @@ def create_user(user: Users, session: Session = Depends(get_db_connection)):
         logger.error(e)
         session.rollback()
         raise HTTPException(status_code=500, detail="Internal Server Error")
-    return user
+    return JSONResponse(
+        status_code=201,
+        content={"msg": f"User {user.id} created successfully"},
+    )
 
 
 @router.get("/")
