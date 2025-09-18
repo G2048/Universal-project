@@ -27,7 +27,7 @@ def create_user(user: Users, session: Session = Depends(get_db_connection)):
         raise HTTPException(status_code=500, detail="Internal Server Error")
     return JSONResponse(
         status_code=201,
-        content={"msg": f"User {user.id} created successfully"},
+        content={"id": f"{user.id}"},
     )
 
 
@@ -69,5 +69,5 @@ def delete_user(user_id: int, session: Session = Depends(get_db_connection)):
         )
     return JSONResponse(
         status_code=201,
-        content={"msg": f"User {user_id} deleted successfully"},
+        content={"id": f"{user.id}"},
     )
