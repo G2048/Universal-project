@@ -2,6 +2,7 @@ import logging
 
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
+from sqlmodel import Session, select
 
 from app.api.services import (
     JWT,
@@ -9,6 +10,9 @@ from app.api.services import (
     InvalidTokenError,
     JwtPayload,
 )
+from app.core.database.models import Users
+
+from .db import get_db_connection
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/")
 logger = logging.getLogger("app.api.dependencies.auth")
@@ -36,3 +40,14 @@ def validate_token(token: str = Depends(oauth2_scheme)) -> JwtPayload:
                 headers={"WWW-Authenticate": "Bearer"},
             )
     return payload
+
+
+def validate_user(
+    session: Session = Depends(get_db_connection),
+    token: JwtPayload = Depends(validate_token),
+) -> int:
+    statement = select(Users).where(Users.id == token.user_id)
+    user = session.exec(statement).first()
+    if user and user.user_lock:
+        raise HTTPException(status_code=400, detail="Inactive user")
+    return token.user_id

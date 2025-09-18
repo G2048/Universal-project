@@ -11,6 +11,7 @@ from app.api.dependencies import (
     Session,
     get_db_connection,
     validate_token,
+    validate_user,
 )
 from app.api.models.users import ResponseToken
 from app.api.services import (
@@ -61,25 +62,19 @@ def get_token(
 
 
 @router.get("/")
-def check_login(token: JwtPayload = Depends(validate_token)):
+def check_login(token: JwtPayload = Depends(validate_user)):
     logged_in = True
     status_code = HTTPStatus.OK
     return JSONResponse(content={"logged_in": logged_in}, status_code=status_code)
 
 
-def get_current_active_user(
+@router.get("/me/")
+def read_users_me(
     session: Session = Depends(get_db_connection),
     token: JwtPayload = Depends(validate_token),
 ):
-    statement = select(Users).where(Users.username == token.sub)
+    statement = select(Users).where(Users.id == token.user_id)
     user = session.exec(statement).first()
     if user and user.user_lock:
         raise HTTPException(status_code=400, detail="Inactive user")
     return user
-
-
-@router.get("/me/", response_model=Users)
-def read_users_me(
-    current_user: Annotated[Users, Depends(get_current_active_user)],
-):
-    return current_user
