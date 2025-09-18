@@ -48,6 +48,7 @@ app.include_router(routers_v1.companies, prefix="/api/v1")
 app.include_router(routers_v1.users, prefix="/api/v1")
 app.include_router(routers_v1.auth, prefix="/api/v1")
 app.include_router(routers_v1.settings, prefix="/api/v1")
+app.include_router(routers_v1.groups, prefix="/api/v1")
 
 
 @app.get("/health", tags=["health check"])
