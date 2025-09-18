@@ -61,17 +61,17 @@ def get_token(
 
 
 @router.get("/")
-def check_login(username: str = Depends(validate_token)):
+def check_login(token: JwtPayload = Depends(validate_token)):
     logged_in = True
     status_code = HTTPStatus.OK
     return JSONResponse(content={"logged_in": logged_in}, status_code=status_code)
 
 
-async def get_current_active_user(
+def get_current_active_user(
     session: Session = Depends(get_db_connection),
-    username: str = Depends(validate_token),
+    token: JwtPayload = Depends(validate_token),
 ):
-    statement = select(Users).where(Users.username == username)
+    statement = select(Users).where(Users.username == token.sub)
     user = session.exec(statement).first()
     if user and user.user_lock:
         raise HTTPException(status_code=400, detail="Inactive user")

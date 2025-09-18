@@ -7,13 +7,14 @@ from app.api.services import (
     JWT,
     ExpiredSignatureError,
     InvalidTokenError,
+    JwtPayload,
 )
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/")
 logger = logging.getLogger("app.api.dependencies.auth")
 
 
-def validate_token(token: str = Depends(oauth2_scheme)) -> str:
+def validate_token(token: str = Depends(oauth2_scheme)) -> JwtPayload:
     logger.debug(f"Token: {token=}")
     payload = JWT.payload(token)
     error = False
@@ -34,4 +35,4 @@ def validate_token(token: str = Depends(oauth2_scheme)) -> str:
                 detail=detail,
                 headers={"WWW-Authenticate": "Bearer"},
             )
-    return payload.sub
+    return payload
