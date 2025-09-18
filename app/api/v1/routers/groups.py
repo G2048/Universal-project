@@ -41,6 +41,8 @@ def list_user_groups(session: Session = Depends(get_db_connection)) -> list[User
     return session.exec(select(UserGroups)).fetchall()
 
 
+# TODO: сделать получение id пользователя из JWT токена
+# По идее табличка user_groups должна быть many-to-many с user и group...
 @router.get("/{user_id}")
 def list_my_groups(
     user_id: int, session: Session = Depends(get_db_connection)
