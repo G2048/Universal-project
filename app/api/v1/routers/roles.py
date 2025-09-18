@@ -4,7 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse, Response
 from sqlmodel import select
 
-from app.api.dependencies.db import Session, get_db_connection
+from app.api.dependencies import Session, get_db_connection, validate_token
+from app.api.services.jwt import JwtPayload
 from app.core.database.models import FunctionsDict, RoleFunctions, RolesDict, UserRoles
 
 router = APIRouter(prefix="/roles", tags=["Roles"])
@@ -95,6 +96,16 @@ def assign_user_role_to_function(
         status_code=201,
         content={"id": f"{role_function.id}"},
     )
+
+
+@router.get("/my")
+def list_my_roles(
+    token: JwtPayload = Depends(validate_token),
+    session: Session = Depends(get_db_connection),
+) -> list[RolesDict]:
+    return session.exec(
+        select(RolesDict).join(UserRoles).where(UserRoles.user_id == token.user_id)
+    ).fetchall()
 
 
 @router.get("/")
