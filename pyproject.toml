@@ -57,5 +57,6 @@ dev = [
     "faker>=37.8.0",
     "httpx>=0.28.1",
     "pytest>=8.4.2",
+    "pytz>=2025.2",
     "sqlacodegen>=3.0.0",
 ]
