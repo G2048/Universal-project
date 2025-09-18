@@ -54,4 +54,5 @@ known-third-party = ["bound"]
 [dependency-groups]
 dev = [
     "pytest>=8.4.2",
+    "sqlacodegen>=3.0.0",
 ]
