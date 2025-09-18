@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 from sqlmodel import select
 
 from app.api.dependencies.db import Session, get_db_connection
-from app.api.dependencies.hashing import hash_password
+from app.api.services import PasswordHasher
 from app.core.database.models import Users
 
 router = APIRouter(prefix="/users", tags=["Users"])
@@ -16,7 +16,7 @@ logger = logging.getLogger("app.api.v1.routers.users")
 @router.post("/")
 def create_user(user: Users, session: Session = Depends(get_db_connection)):
     logger.debug(f"{user=}")
-    user.password = hash_password(user.password)
+    user.password = PasswordHasher.hash_password(user.password)
     try:
         session.add(user)
         session.commit()
