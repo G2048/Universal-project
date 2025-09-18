@@ -1,6 +1,6 @@
 import logging
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from sqlmodel import select
 
@@ -22,7 +22,7 @@ def create_company(
     except Exception as e:
         logger.error(e)
         session.rollback()
-        raise
+        raise HTTPException(status_code=500, detail=str(e))
     return company
 
 
@@ -33,6 +33,10 @@ def get_company(
     logger.info(f"Getting company with id: {company_id}")
     statement = select(Companies).where(Companies.id == company_id)
     company = session.exec(statement).first()
+    if not company:
+        raise HTTPException(
+            status_code=404, detail=f"Company with id: {company_id} not found"
+        )
     return company
 
 
@@ -68,7 +72,9 @@ def delete_company(company_id: int, session: Session = Depends(get_db_connection
         session.delete(company)
         session.commit()
     else:
-        raise Exception(f"Company with id: {company_id}")
+        raise HTTPException(
+            status_code=404, detail=f"Company with id: {company_id} not found"
+        )
     return JSONResponse(
         status_code=201, content={"msg": f"Company {company_id} deleted successfully"}
     )
