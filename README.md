@@ -14,6 +14,21 @@ python -m sqlacodegen --generator sqlmodels --outfile app/core/database/models.p
 
 <br>
 
+## Пример конфигурационного файла .env
+```
+DEBUG=False
+
+PG_HOST=localhost
+PG_PORT=5432
+PG_USER=universal
+PG_DBNAME=universal
+PG_PASSWORD=password
+
+JWT_SECRET_KEY = '123'
+```
+
+<br>
+
 ## Запуск сервера
 ```bash
 python -m app.main
