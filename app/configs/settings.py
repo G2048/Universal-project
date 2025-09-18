@@ -22,16 +22,16 @@ class AppSettings(BaseSettings):
 class DataBaseSettings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="PG_")
 
-    host: str
-    port: str
+    host: str = "localhost"
+    port: str = "5432"
     user: str
     dbname: str
     password: str
-    engine: str | None = "psycopg"
+    engine: str = "psycopg"
 
     @computed_field(return_type=str)
-    def pg_dsn(self):
-        return f"postgresql://{self.user}:{self.password}@{self.host}:{self.port}/{self.dbname}"
+    def pg_dsn(self) -> str:
+        return f"postgresql+{self.engine}://{self.user}:{self.password}@{self.host}:{self.port}/{self.dbname}"
 
 
 _app_settings = AppSettings()
