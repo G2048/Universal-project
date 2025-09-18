@@ -29,6 +29,13 @@ JWT_SECRET_KEY = '123'
 
 <br>
 
+## Генерация данных для тестирования БД
+```bash
+python -m build.generate_data
+```
+
+<br>
+
 ## Запуск сервера
 ```bash
 python -m app.main
