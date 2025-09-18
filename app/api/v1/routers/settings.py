@@ -29,7 +29,7 @@ def add_setting(setting: Settings, session: Session = Depends(get_db_connection)
     )
 
 
-@router.patch("/")
+@router.patch("/{setting_id}")
 def update_setting(setting: Settings, session: Session = Depends(get_db_connection)):
     logger.debug(f"{setting=}")
     if setting.id is None:
