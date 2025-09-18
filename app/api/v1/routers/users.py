@@ -1,7 +1,7 @@
 import logging
 
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from sqlmodel import select
 
 from app.api.dependencies.db import Session, get_db_connection
@@ -67,7 +67,4 @@ def delete_user(user_id: int, session: Session = Depends(get_db_connection)):
         raise HTTPException(
             status_code=404, detail=f"User with id: {user_id} not found"
         )
-    return JSONResponse(
-        status_code=201,
-        content={"id": f"{user.id}"},
-    )
+    return Response(status_code=204)

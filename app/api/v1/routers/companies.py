@@ -1,7 +1,7 @@
 import logging
 
 from fastapi import APIRouter, Depends, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import Response
 from sqlmodel import select
 
 from app.api.dependencies.db import Session, get_db_connection
@@ -96,6 +96,4 @@ def delete_company(company_id: int, session: Session = Depends(get_db_connection
         raise HTTPException(
             status_code=404, detail=f"Company with id: {company_id} not found"
         )
-    return JSONResponse(
-        status_code=201, content={"msg": f"Company {company_id} deleted successfully"}
-    )
+    return Response(status_code=204)
