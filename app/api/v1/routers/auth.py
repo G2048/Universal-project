@@ -73,7 +73,7 @@ async def get_current_active_user(
 ):
     statement = select(Users).where(Users.username == username)
     user = session.exec(statement).first()
-    if user and user.user_lock is True:
+    if user and user.user_lock:
         raise HTTPException(status_code=400, detail="Inactive user")
     return user
 
