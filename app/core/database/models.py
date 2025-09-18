@@ -201,7 +201,10 @@ class Companies(SQLModel, table=True):
     )
     property_id: int = Field(sa_column=Column("property_id", BigInteger))
     name: str = Field(sa_column=Column("name", String(255)))
-    created_date: date = Field(sa_column=Column("created_date", Date))
+    created_date: date = Field(
+        sa_column=Column("created_date", Date),
+        default_factory=date.today,
+    )
     inn: str = Field(sa_column=Column("inn", String(16)))
     kpp: str = Field(sa_column=Column("kpp", String(9)))
     ogrn: str | None = Field(default=None, sa_column=Column("ogrn", String(13)))
