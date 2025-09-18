@@ -4,7 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from sqlmodel import select
 
-from app.api.dependencies.db import Session, get_db_connection
+from app.api.dependencies import Session, get_db_connection, validate_token
+from app.api.services.jwt import JwtPayload
 from app.core.database.models import Companies, UserGroups, Users
 
 router = APIRouter(prefix="/groups", tags=["Groups"])
@@ -41,14 +42,15 @@ def list_user_groups(session: Session = Depends(get_db_connection)) -> list[User
     return session.exec(select(UserGroups)).fetchall()
 
 
-# TODO: сделать получение id пользователя из JWT токена
 # По идее табличка user_groups должна быть many-to-many с user и group...
-@router.get("/{user_id}")
+@router.get("/my")
 def list_my_groups(
-    user_id: int, session: Session = Depends(get_db_connection)
+    token: JwtPayload = Depends(validate_token),
+    session: Session = Depends(get_db_connection),
 ) -> list[UserGroups]:
+    print(f"Listing groups for user with id: {token.user_id}")
     return session.exec(
-        select(UserGroups).join(Users).where(Users.id == user_id)
+        select(UserGroups).join(Users).where(Users.id == token.user_id)
     ).fetchall()
 
 
