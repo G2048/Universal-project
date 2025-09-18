@@ -466,9 +466,13 @@ class Users(SQLModel, table=True):
     username: str = Field(sa_column=Column("username", String(60)))
     firtsname: str = Field(sa_column=Column("firtsname", String(60)))
     lastname: str = Field(sa_column=Column("lastname", String(60)))
-    created_date: date = Field(sa_column=Column("created_date", Date))
+    created_date: date = Field(
+        sa_column=Column("created_date", Date), default_factory=date.today
+    )
     user_lock: bool = Field(
-        sa_column=Column("user_lock", Boolean, server_default=text("false"))
+        sa_column=Column(
+            "user_lock", Boolean, server_default=text("false"), default=False
+        )
     )
     password: str = Field(sa_column=Column("password", String(255)))
     patronymic: str | None = Field(
