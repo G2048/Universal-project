@@ -1,5 +1,6 @@
 from fastapi.testclient import TestClient
 
+from app.api.models.companies import CreateCompany
 from app.core.database.models import Companies
 from app.main import app
 
@@ -34,8 +35,13 @@ def test_create_delete_company():
         inn="3375642255",
         ogrn="1021712356460",
     )
+    company = CreateCompany(company=company)
     with TestClient(app) as client:
-        response = client.post(ENDPOINT, data=company.model_dump_json())
+        company_json = company.model_dump_json()
+        # company_json = {"company": company_json}
+        print(f"{company_json=}")
+        response = client.post(ENDPOINT, data=company_json)
+        print(f"{response.json()=}")
         assert response.status_code == 200
         response_json = response.json()
         assert isinstance(response_json, dict)
