@@ -86,7 +86,7 @@ def test_create_delete_user(user_group_id: int, company_id: int, timezone_id: in
     )
     with TestClient(app) as client:
         response = client.post(ENDPOINT, data=user.model_dump_json())
-        assert response.status_code == 200
+        assert response.status_code == 201
         response_json = response.json()
         assert isinstance(response_json, dict)
         print()
