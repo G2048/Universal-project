@@ -1,7 +1,7 @@
 PASSWORD=$(head /dev/random | sha256sum | grep -Po '\w+')
 USER="universal"
 DATABASE="universal"
-echo "Create user $USER with password $PASSWORD" | tee .create_user.log
+echo "Create user USER=$USER with password PASSWORD=$PASSWORD" | tee .create_user.log
 sudo -u postgres psql -c "CREATE ROLE $USER WITH LOGIN PASSWORD '$PASSWORD' CREATEDB CREATEROLE;"
 sudo -u postgres psql -c "CREATE DATABASE $DATABASE OWNER $USER;"
 sudo -u postgres psql -c "CREATE SEQUENCE IF NOT EXISTS user_roles_id_seq OWNED BY user_roles.id;"
