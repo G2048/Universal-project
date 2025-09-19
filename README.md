@@ -58,3 +58,4 @@ python -m uvicorn app.main:app --reload
 /docs # Swagger UI
 /health # Check server status
 ```
+> Остальные эндпоинты смотри в Swagger UI
