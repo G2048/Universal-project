@@ -45,3 +45,13 @@ python -m app.main
 ```bash
 python -m uvicorn app.main:app --reload
 ```
+
+<br>
+
+
+## Endpoints
+
+```bash
+/docs # Swagger UI
+/health # Check server status
+```
