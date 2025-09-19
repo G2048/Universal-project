@@ -4,8 +4,13 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse, Response
 from sqlmodel import select
 
-from app.api.dependencies import Session, get_db_connection, validate_user
-from app.api.dependencies.roles import Scope, check_permissions
+from app.api.dependencies import (
+    Scope,
+    Session,
+    check_permissions,
+    get_db_connection,
+    validate_user,
+)
 from app.api.services import PasswordHasher
 from app.core.database.models import Users
 
