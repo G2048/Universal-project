@@ -4,10 +4,28 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse, Response
 from sqlmodel import select
 
-from app.api.dependencies.db import Session, get_db_connection
+from app.api.dependencies import (
+    Scope,
+    Session,
+    check_permissions,
+    get_db_connection,
+    validate_user,
+)
 from app.core.database.models import Settings, SettingsDict
 
-router = APIRouter(prefix="/settings", tags=["Settings"])
+
+def _check_permissions(
+    user_id: int = Depends(validate_user),
+    session: Session = Depends(get_db_connection),
+):
+    return check_permissions(user_id, Scope.settings, session)
+
+
+router = APIRouter(
+    prefix="/settings",
+    tags=["Settings"],
+    dependencies=[Depends(_check_permissions)],
+)
 
 logger = logging.getLogger("app.api.v1.routers.settings")
 
