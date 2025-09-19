@@ -20,7 +20,7 @@ def _check_permissions(
     user_id: int = Depends(validate_user),
     session: Session = Depends(get_db_connection),
 ):
-    return check_permissions(user_id, Scope.settings, session)
+    return check_permissions(user_id, Scope.roles, session)
 
 
 router = APIRouter(
