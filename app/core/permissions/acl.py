@@ -9,6 +9,8 @@ class Scope(StrEnum):
     roles = "roles"
 
 
+# TODO: по хорошему нужно брать данные правила динамии из БД
+# Возможно стоит подумать над внедрением OPA...
 class Functions(StrEnum):
     manage_all = "manage_all"
     read_users = "read_users"
