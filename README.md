@@ -7,6 +7,9 @@ bash build/create_database_psql.sh
 
 <br>
 
+## Diagram of Universal Database
+![img](Diagram_of_Universal_Database_ordered.png)
+
 ## Генерация моделей для SQLAlchemy из схемы базы данных
 ```bash
 python -m sqlacodegen --generator sqlmodels --outfile app/core/database/models.py 'postgresql+psycopg://universal:$UNIVERSAL_DB_PASSWORD@localhost:5432/universal'
