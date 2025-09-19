@@ -17,6 +17,23 @@ python -m sqlacodegen --generator sqlmodels --outfile app/core/database/models.p
 
 <br>
 
+# Зависимости
+
+## Установка uv:
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+> Подробнее об установке uv можно почитать здесь:
+https://docs.astral.sh/uv/getting-started/installation/
+
+<br>
+
+## Установка зависимостей
+```bash
+uv sync
+```
+
 ## Пример конфигурационного файла .env
 ```
 DEBUG=False
@@ -28,6 +45,15 @@ PG_DBNAME=universal
 PG_PASSWORD=password
 
 JWT_SECRET_KEY = '123'
+```
+
+<br>
+
+# Запуск приложения
+
+## Активация виртуального окружения
+```bash
+source .venv/bin/activate
 ```
 
 <br>
