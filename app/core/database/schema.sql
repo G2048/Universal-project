@@ -24,6 +24,10 @@ CREATE INDEX idx_users_id_group_id ON users(id, group_id);
 CREATE INDEX idx_users_id_property_id ON users(id);
 COMMENT ON TABLE users IS 'Таблица пользователей';
 
+CREATE TABLE IF NOT EXISTS mimicry (
+    user_id BIGINT REFERENCES users(id) UNIQUE
+    ,reflect_user_id BIGINT REFERENCES Users(id)
+);
 
 CREATE TABLE user_groups(
   id bigserial NOT NULL,
@@ -441,4 +445,3 @@ ALTER TABLE user_report_links
   ADD CONSTRAINT user_report_links_report_id_fkey
     FOREIGN KEY (report_id) REFERENCES reports (id)
 ;
-
