@@ -1,5 +1,6 @@
 services:
   universal:
+    container_name: universal
     build:
       context: .
       dockerfile: Dockerfile
